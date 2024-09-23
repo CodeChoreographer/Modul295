@@ -13,4 +13,3 @@ public class PlaygroundController {
         return "Hello Java Spring Boot";
     }
 }
-
