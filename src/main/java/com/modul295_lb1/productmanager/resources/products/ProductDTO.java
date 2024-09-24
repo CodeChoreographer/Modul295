@@ -1,62 +1,40 @@
 package com.modul295_lb1.productmanager.resources.products;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.modul295_lb1.productmanager.resources.categories.CategoryData;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
-import java.io.Serializable;
-
-@Entity
-@Table(name = "product")
-public class ProductData implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+/**
+ * Data Transfer Object (DTO) für Produktdaten.
+ */
+public class ProductDTO {
 
     @NotNull(message = "ArtNr darf nicht null sein.")
-    @Column(length = 100, nullable = false)
     private String sku;
 
     @NotNull(message = "Aktivitätsstatus darf nicht null sein.")
-    @Column(nullable = false)
     private Boolean active;
 
-    @NotNull(message = "Name darf nicht null sein.")
-    @Column(length = 500, nullable = false)
+    @NotBlank(message = "Name darf nicht leer sein.")
     private String name;
 
-    @Column(length = 1000)
     private String image;
 
     @NotNull(message = "Preis darf nicht null sein.")
     @Positive(message = "Preis muss positiv sein.")
-    @Column(nullable = false)
     private Float price;
 
     @NotNull(message = "Lagerbestand darf nicht null sein.")
     @PositiveOrZero(message = "Lagerbestand muss null oder positiv sein.")
-    @Column(nullable = false)
     private Integer stock;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    @JsonBackReference // Verhindert die Rekursion
-    private CategoryData category;
-
-    @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
-    public Integer getId() {
-        return id;
-    }
+    @NotNull(message = "Kategorie-ID darf nicht null sein.")
+    private Integer categoryId; // Hinzufügen der Kategorie-ID
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Getter und Setter
 
     public String getSku() {
         return sku;
@@ -106,19 +84,19 @@ public class ProductData implements Serializable {
         this.stock = stock;
     }
 
-    public CategoryData getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryData category) {
-        this.category = category;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getCategoryId() { // Getter für die Kategorie-ID
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) { // Setter für die Kategorie-ID
+        this.categoryId = categoryId;
     }
 }

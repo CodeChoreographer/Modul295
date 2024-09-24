@@ -20,15 +20,14 @@ public class AdminUserInitializer implements CommandLineRunner {
     }
 
     private void createAdminUser() {
-        // Überprüfen, ob der Admin-Benutzer bereits existiert
         if (userRepository.findByUsername("Admin") == null) {
             UserData adminUser = new UserData();
             adminUser.setUsername("Admin");
-            adminUser.setPassword("Admin"); // Im Klartext, für Testzwecke
+            adminUser.setPassword("Admin");
             adminUser.setActive(true);
-            adminUser.setEmail("admin@example.com"); // Beispiel-Email
-            adminUser.setIsAdmin(true); // Admin-Flag setzen
-            userRepository.save(adminUser); // Admin-Benutzer speichern
+            adminUser.setEmail("admin@example.com");
+            adminUser.setIsAdmin(true);
+            userRepository.save(adminUser);
         }
     }
 }

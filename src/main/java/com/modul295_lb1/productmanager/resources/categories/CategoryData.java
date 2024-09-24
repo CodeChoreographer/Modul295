@@ -1,5 +1,6 @@
 package com.modul295_lb1.productmanager.resources.categories;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.modul295_lb1.productmanager.resources.products.ProductData;
 import jakarta.persistence.*;
 
@@ -21,7 +22,8 @@ public class CategoryData implements Serializable {
     @Column(length = 255, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<ProductData> products;
 
     public Integer getId() {
