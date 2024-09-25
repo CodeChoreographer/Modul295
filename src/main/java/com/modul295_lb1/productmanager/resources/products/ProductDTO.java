@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 /**
- * Data Transfer Object (DTO) für Produktdaten.
+ * Data Transfer Object für Produktdaten.
  */
 public class ProductDTO {
 
