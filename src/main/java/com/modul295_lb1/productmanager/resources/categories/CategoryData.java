@@ -4,26 +4,29 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.modul295_lb1.productmanager.resources.products.ProductData;
 import jakarta.persistence.*;
 
-//import javax.persistence.*;
+// Importiert die notwendigen Pakete für JPA und Serialisierung
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Entitätsklasse, die eine Kategorie in der Datenbank repräsentiert.
+ */
 @Entity
-@Table(name = "category")
+@Table(name = "categories")
 public class CategoryData implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generiert die ID automatisch
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false) // Die Kategorie muss aktiv/inaktiv sein
     private Boolean active;
 
     @Column(length = 255, nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference // Verhindert Rekursion beim Serialisieren
     private List<ProductData> products;
 
     public Integer getId() {

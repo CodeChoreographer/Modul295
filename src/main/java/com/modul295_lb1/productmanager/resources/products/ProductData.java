@@ -10,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class ProductData implements Serializable {
 
     @Id

@@ -30,7 +30,7 @@ public class ProductController {
      * @param productDTO Die Daten des zu erstellenden Produkts
      * @return Das erstellte Produkt
      */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ProductData> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         ProductData productData = new ProductData();
         productData.setSku(productDTO.getSku());

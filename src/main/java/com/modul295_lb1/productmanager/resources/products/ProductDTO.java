@@ -4,11 +4,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Data Transfer Object für Produktdaten.
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
 
     @NotNull(message = "ArtNr darf nicht null sein.")
@@ -34,69 +39,4 @@ public class ProductDTO {
 
     @NotNull(message = "Kategorie-ID darf nicht null sein.")
     private Integer categoryId;
-
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getCategoryId() { // Getter für die Kategorie-ID
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) { // Setter für die Kategorie-ID
-        this.categoryId = categoryId;
-    }
 }
