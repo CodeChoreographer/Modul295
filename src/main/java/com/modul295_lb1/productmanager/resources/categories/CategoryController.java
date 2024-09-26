@@ -38,6 +38,7 @@ public class CategoryController {
             CategoryData createdCategory = categoryService.createCategory(categoryData);
             return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Fehler beim Erstellen der Kategorie: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

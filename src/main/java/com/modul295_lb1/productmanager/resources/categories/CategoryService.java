@@ -30,7 +30,7 @@ public class CategoryService {
     @Operation(summary = "Erstellt eine neue Kategorie",
             description = "Speichert die übergebenen Kategoriedaten in der Datenbank.")
     public CategoryData createCategory(CategoryData categoryData) {
-            if (categoryRepository.existsById(categoryData.getId())) {
+        if (categoryData.getId() != null && categoryRepository.existsById(categoryData.getId())) {
             throw new CategoryAlreadyExistsException("Kategorie mit ID " + categoryData.getId() + " existiert bereits.");
         }
         if (categoryRepository.existsByName(categoryData.getName())) {
