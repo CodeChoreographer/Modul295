@@ -95,7 +95,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (_binary '',1,_binary '','$2a$10$bzf.fUcPI/qFWwfC/kfUVeUDpIK3RwY7wBCcwEXW2Dt1fDIEadLEm','Admin','admin@example.com');
+INSERT INTO `users` VALUES (_binary '',1,_binary '','$2a$10$lsizUbHR6j6JvU4fzuFR0.FWunN66MyLu2qN96R2/WH1Kkk8BVlG6','Admin','admin@example.com');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-26 11:11:23
+-- Dump completed on 2024-09-26 15:16:12

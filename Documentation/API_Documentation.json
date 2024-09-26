@@ -10,12 +10,20 @@
       "description": "Generated server url"
     }
   ],
+  "tags": [
+    {
+      "name": "CategoryController",
+      "description": "Controller für die Verwaltung (CRUD) der Kategorien"
+    }
+  ],
   "paths": {
     "/users/{id}": {
       "put": {
         "tags": [
           "user-controller"
         ],
+        "summary": "Benutzerdaten bearbeiten",
+        "description": "Bearbeitet die Benutzerdaten des Benutzers mit der angegebenen ID.",
         "operationId": "updateUser",
         "parameters": [
           {
@@ -65,6 +73,8 @@
         "tags": [
           "product-controller"
         ],
+        "summary": "Ruft Produktdetails ab",
+        "description": "Gibt die Details eines Produkts basierend auf der angegebenen Produkt-ID zurück.",
         "operationId": "getProduct",
         "parameters": [
           {
@@ -94,6 +104,8 @@
         "tags": [
           "product-controller"
         ],
+        "summary": "Bearbeitet ein bestehendes Produkt",
+        "description": "Aktualisiert die Daten eines Produkts basierend auf der angegebenen ID.",
         "operationId": "updateProduct",
         "parameters": [
           {
@@ -133,6 +145,8 @@
         "tags": [
           "product-controller"
         ],
+        "summary": "Löscht ein Produkt",
+        "description": "Entfernt das Produkt mit der angegebenen ID aus der Datenbank.",
         "operationId": "deleteProduct",
         "parameters": [
           {
@@ -162,13 +176,16 @@
     "/categories/{id}": {
       "get": {
         "tags": [
-          "category-controller"
+          "CategoryController"
         ],
-        "operationId": "getCategory",
+        "summary": "Ruft die Details einer Kategorie ab",
+        "description": "Gibt die Details einer Kategorie mit einer spezifischen ID zurück.",
+        "operationId": "getCategoryById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID der Kategorie, die abgerufen werden soll",
             "required": true,
             "schema": {
               "type": "integer",
@@ -182,7 +199,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CategoryData"
+                  "type": "object"
                 }
               }
             }
@@ -191,13 +208,16 @@
       },
       "put": {
         "tags": [
-          "category-controller"
+          "CategoryController"
         ],
+        "summary": "Bearbeitet eine bestehende Kategorie",
+        "description": "Aktualisiert die Details einer Kategorie mit einer bestimmten ID.",
         "operationId": "updateCategory",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID der Kategorie, die aktualisiert werden soll",
             "required": true,
             "schema": {
               "type": "integer",
@@ -221,7 +241,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CategoryData"
+                  "type": "object"
                 }
               }
             }
@@ -230,13 +250,16 @@
       },
       "delete": {
         "tags": [
-          "category-controller"
+          "CategoryController"
         ],
+        "summary": "Löscht eine Kategorie",
+        "description": "Löscht eine Kategorie mit einer bestimmten ID.",
         "operationId": "deleteCategory",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID der Kategorie, die gelöscht werden soll",
             "required": true,
             "schema": {
               "type": "integer",
@@ -246,7 +269,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
           }
         }
       }
@@ -256,6 +286,8 @@
         "tags": [
           "user-controller"
         ],
+        "summary": "Benutzer registrieren",
+        "description": "Registriert einen neuen Benutzer mit den bereitgestellten Daten.",
         "operationId": "registerUser",
         "requestBody": {
           "content": {
@@ -286,6 +318,8 @@
         "tags": [
           "user-controller"
         ],
+        "summary": "Benutzer authentifizieren",
+        "description": "Authentifiziert einen Benutzer und gibt ein Token zurück.",
         "operationId": "authenticateUser",
         "parameters": [
           {
@@ -319,32 +353,13 @@
         }
       }
     },
-    "/products/": {
-      "get": {
-        "tags": [
-          "product-controller"
-        ],
-        "operationId": "listProducts",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+    "/products": {
       "post": {
         "tags": [
           "product-controller"
         ],
+        "summary": "Erstellt ein neues Produkt",
+        "description": "Speichert die übergebenen Produktdaten in der Datenbank und verknüpft es mit der entsprechenden Kategorie.",
         "operationId": "createProduct",
         "requestBody": {
           "content": {
@@ -370,32 +385,13 @@
         }
       }
     },
-    "/categories/": {
-      "get": {
-        "tags": [
-          "category-controller"
-        ],
-        "operationId": "listCategories",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CategoryData"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
+    "/categories": {
       "post": {
         "tags": [
-          "category-controller"
+          "CategoryController"
         ],
+        "summary": "Erstellt eine neue Kategorie",
+        "description": "Erstellt eine neue Kategorie und gibt das erstellte Kategorie-Objekt zurück.",
         "operationId": "createCategory",
         "requestBody": {
           "content": {
@@ -413,7 +409,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CategoryData"
+                  "type": "object"
                 }
               }
             }
@@ -426,6 +422,8 @@
         "tags": [
           "user-controller"
         ],
+        "summary": "Benutzerdaten abrufen",
+        "description": "Ruft die Benutzerdaten des authentifizierten Benutzers ab.",
         "operationId": "getUserData",
         "parameters": [
           {
@@ -451,16 +449,44 @@
         }
       }
     },
+    "/products/": {
+      "get": {
+        "tags": [
+          "product-controller"
+        ],
+        "summary": "Listet alle Produkte auf",
+        "description": "Gibt eine Liste aller in der Datenbank gespeicherten Produkte zurück.",
+        "operationId": "listProducts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/categories/{id}/products": {
       "get": {
         "tags": [
-          "category-controller"
+          "CategoryController"
         ],
+        "summary": "Listet alle Produkte einer Kategorie auf",
+        "description": "Gibt eine Liste aller Produkte in einer bestimmten Kategorie zurück.",
         "operationId": "listProductsByCategory",
         "parameters": [
           {
             "name": "id",
             "in": "path",
+            "description": "ID der Kategorie, deren Produkte aufgelistet werden sollen",
             "required": true,
             "schema": {
               "type": "integer",
@@ -474,9 +500,31 @@
             "content": {
               "*/*": {
                 "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/": {
+      "get": {
+        "tags": [
+          "CategoryController"
+        ],
+        "summary": "Listet alle Kategorien auf",
+        "description": "Gibt eine Liste aller verfügbaren Kategorien zurück.",
+        "operationId": "listCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductData"
+                    "$ref": "#/components/schemas/CategoryData"
                   }
                 }
               }
