@@ -4,9 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 
 /**
- * Data Transfer Object (DTO) für Produktdaten.
+ * Data Transfer Object für Produktdaten.
  */
 public class ProductDTO {
 
@@ -32,9 +33,8 @@ public class ProductDTO {
     private String description;
 
     @NotNull(message = "Kategorie-ID darf nicht null sein.")
-    private Integer categoryId; // Hinzufügen der Kategorie-ID
+    private Integer categoryId;
 
-    // Getter und Setter
 
     public String getSku() {
         return sku;

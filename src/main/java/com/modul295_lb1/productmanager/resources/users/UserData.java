@@ -1,11 +1,27 @@
 package com.modul295_lb1.productmanager.resources.users;
 
 import jakarta.persistence.*;
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Entitätsklasse, die einen Benutzer im System darstellt.
+ * Sie wird mit der Tabelle 'users' in der Datenbank gemappt.
+ */
+@Setter
+@Getter
 @Entity
 @Table(name = "users")
-public class UserData implements Serializable {
+public class UserData {
+
+//    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,52 +42,21 @@ public class UserData implements Serializable {
     @Column(nullable = false)
     private Boolean isAdmin = false;
 
-    // Getter und Setter
-    public Integer getId() {
-        return id;
+    public UserData() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
+    public UserData(String username, String password, Boolean active, String email, Boolean isAdmin) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
+        this.password = password; // Das Passwort wird in der UserService gehashed
         this.active = active;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public List<String> getRoles() {
+        if(isAdmin) {
+            return List.of("ROLE_ADMIN");
+        }
+        return new ArrayList<>();
     }
 }
