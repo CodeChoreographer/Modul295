@@ -19,7 +19,7 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 
 @Component
-public class JwtRequestFilterNew extends OncePerRequestFilter {
+public class JwtRequestFilter extends OncePerRequestFilter {
         
     // Schritt 1
     @Autowired
