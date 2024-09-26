@@ -7,9 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UserData, Integer> {
     UserData findByEmail(String email);
 
-
-    // überprüfen, ob ein Admin-Benutzer existiert
-    boolean existsByIsAdminTrue();
-
     UserData findByUsername(String username);
 }

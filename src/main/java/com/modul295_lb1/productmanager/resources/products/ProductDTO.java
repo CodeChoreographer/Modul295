@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Data Transfer Object für Produktdaten.
+ * Verwendet zur Datenvalidierung in der ProductController-Klasse.
  */
 @Data
 @NoArgsConstructor

@@ -9,6 +9,9 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 import java.io.Serializable;
 
+/**
+ * Entity-Klasse, die die Produktdatenbankstruktur abbildet.
+ */
 @Entity
 @Table(name = "products")
 public class ProductData implements Serializable {
@@ -42,9 +45,13 @@ public class ProductData implements Serializable {
     @Column(nullable = false)
     private Integer stock;
 
+    /**
+     * Referenz zur Kategorie, in der das Produkt eingeordnet ist.
+     * Verwenden von JsonBackReference, um Unbegrenztes erstellen zu verhindern.
+     */
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    @JsonBackReference // Verhindert die Rekursion
+    @JsonBackReference
     private CategoryData category;
 
     @Column(columnDefinition = "MEDIUMTEXT")

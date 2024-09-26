@@ -35,9 +35,6 @@ public class CategoryController {
             description = "Erstellt eine neue Kategorie und gibt das erstellte Kategorie-Objekt zurück.")
     public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryData categoryData) {
         try {
-            if(categoryData.getId() == null) {
-                categoryData.setId(1);
-            }
             CategoryData createdCategory = categoryService.createCategory(categoryData);
             return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
         } catch (Exception e) {

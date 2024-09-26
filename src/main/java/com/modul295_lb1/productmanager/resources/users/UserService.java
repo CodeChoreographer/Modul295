@@ -9,27 +9,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.Date;
 
 /**
- * Service für Benutzeroperationen, einschließlich Registrierung, Authentifizierung
- * und Datenmanagement.
+ * Service für Benutzeroperationen, einschliesslich Registrierung, Authentifizierung und Datenmanagement.
  */
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final TokenService tokenService;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    //public static final String SECRET_KEY = "CédricsSichererSicherheitsschlüssel";
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final long EXPIRATION_TIME = 86400000; // 24 Stunden
 
     /**
-     * Konstruktor für UserService, der das UserRepository und den PasswordEncoder injiziert.
+     * Konstruktor für UserService.
      *
      * @param userRepository das Repository für Benutzeroperationen
+     * @param tokenService   der Service für Token-Management
      */
     @Autowired
     public UserService(UserRepository userRepository, TokenService tokenService) {
@@ -44,6 +46,11 @@ public class UserService {
      * @return die gespeicherten Benutzerdaten
      * @throws UserAlreadyExistsException wenn der Benutzer bereits existiert
      */
+    @Operation(summary = "Registriert einen neuen Benutzer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Benutzer erfolgreich registriert"),
+            @ApiResponse(responseCode = "400", description = "Benutzer existiert bereits")
+    })
     public UserData registerUser(UserData userData) {
         if (userExists(userData.getUsername())) {
             throw new UserAlreadyExistsException("Benutzer existiert bereits");
@@ -53,22 +60,26 @@ public class UserService {
     }
 
     /**
-     * Authentifiziert einen Benutzer und gibt ein JWT-Token zurück, wenn die Anmeldeinformationen gültig sind.
+     * Authentifiziert einen Benutzer und gibt ein JWT-Token zurück.
      *
-     * @param email der Benutzername
+     * @param email    der Benutzername
      * @param password das Passwort
      * @return das generierte Authentifizierungstoken
      * @throws InvalidCredentialsException wenn die Anmeldeinformationen ungültig sind
      */
-    public String authenticateUser(String email, String password) {
+    @Operation(summary = "Authentifiziert einen Benutzer")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Benutzer erfolgreich authentifiziert"),
+            @ApiResponse(responseCode = "401", description = "Ungültige Anmeldeinformationen")
+    })
+    public String authenticateUser(@Parameter(description = "Benutzername") String email,
+                                   @Parameter(description = "Passwort") String password) {
         UserData user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return generateAuthToken(user); // Token generieren
+            return generateAuthToken(user);
         }
         throw new InvalidCredentialsException("Ungültige Anmeldeinformationen");
     }
-
-
 
     /**
      * Gibt die Benutzerdaten für den angegebenen Benutzernamen zurück.
@@ -76,7 +87,8 @@ public class UserService {
      * @param email der Benutzername
      * @return die Benutzerdaten
      */
-    public UserData getUserByEmail(String email) {
+    @Operation(summary = "Gibt die Benutzerdaten zurück")
+    public UserData getUserByEmail(@Parameter(description = "Benutzername") String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -87,6 +99,12 @@ public class UserService {
      * @throws UserNotAuthenticatedException wenn der Benutzer nicht authentifiziert ist
      * @throws UserNotFoundException wenn der Benutzer nicht gefunden wird
      */
+    @Operation(summary = "Gibt die Daten des aktuell authentifizierten Benutzers zurück")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Benutzerdaten erfolgreich abgerufen"),
+            @ApiResponse(responseCode = "403", description = "Benutzer nicht authentifiziert"),
+            @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden")
+    })
     public UserData getCurrentUserData() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -100,12 +118,18 @@ public class UserService {
     /**
      * Aktualisiert die Benutzerdaten des angegebenen Benutzers.
      *
-     * @param id die Benutzer-ID
+     * @param id       die Benutzer-ID
      * @param userData die neuen Benutzerdaten
      * @return die aktualisierten Benutzerdaten
      * @throws UserNotFoundException wenn der Benutzer nicht gefunden wird
      */
-    public UserData updateUser(Integer id, UserData userData) {
+    @Operation(summary = "Aktualisiert die Benutzerdaten")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Benutzerdaten erfolgreich aktualisiert"),
+            @ApiResponse(responseCode = "404", description = "Benutzer nicht gefunden")
+    })
+    public UserData updateUser(@Parameter(description = "Benutzer-ID") Integer id,
+                               @Parameter(description = "Neue Benutzerdaten") UserData userData) {
         UserData existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Benutzer nicht gefunden"));
 
@@ -123,7 +147,6 @@ public class UserService {
      * @return das generierte Token
      */
     private String generateAuthToken(UserData user) {
-        System.out.println(user.getEmail());
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -133,16 +156,17 @@ public class UserService {
     }
 
     /**
-     * Überprüft, ob ein Benutzer mit dem angegebenen Benutzernamen bereits existiert.
+     * Überprüft, ob ein Benutzer mit dem angegebenen Benutzernamen existiert.
      *
      * @param email der Benutzername
      * @return true, wenn der Benutzer existiert, andernfalls false
      */
-    public boolean userExists(String email) {
+    public boolean userExists(@Parameter(description = "Benutzername") String email) {
         return userRepository.findByEmail(email) != null;
     }
 
-    public UserData getUserByCredentials(String email, String password) {
+    public UserData getUserByCredentials(@Parameter(description = "Benutzername") String email,
+                                         @Parameter(description = "Passwort") String password) {
         UserData userData = userRepository.findByEmail(email);
         if(userData == null) {
             return null;
@@ -156,7 +180,7 @@ public class UserService {
         return null;
     }
 
-    public UserData findUserByEmail(String email) {
+    public UserData findUserByEmail(@Parameter(description = "Benutzername") String email) {
         return userRepository.findByEmail(email);
     }
 

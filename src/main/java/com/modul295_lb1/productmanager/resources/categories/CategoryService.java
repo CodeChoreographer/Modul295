@@ -30,10 +30,13 @@ public class CategoryService {
     @Operation(summary = "Erstellt eine neue Kategorie",
             description = "Speichert die übergebenen Kategoriedaten in der Datenbank.")
     public CategoryData createCategory(CategoryData categoryData) {
-        if (categoryRepository.existsById(categoryData.getId())) {
+            if (categoryRepository.existsById(categoryData.getId())) {
             throw new CategoryAlreadyExistsException("Kategorie mit ID " + categoryData.getId() + " existiert bereits.");
         }
-        System.out.println("Kategorie " + categoryData.getId() + " wurde erfolgreich.");
+        if (categoryRepository.existsByName(categoryData.getName())) {
+            throw new CategoryAlreadyExistsException("Kategorie mit dem Namen '" + categoryData.getName() + "' existiert bereits.");
+        }
+        System.out.println("Kategorie " + categoryData.getId() + " wurde erfolgreich erstellt.");
         return categoryRepository.save(categoryData);
     }
 
@@ -54,7 +57,7 @@ public class CategoryService {
     /**
      * Aktualisiert eine bestehende Kategorie.
      *
-     * @param id Die ID der Kategorie
+     * @param id                  Die ID der Kategorie
      * @param updatedCategoryData Die aktualisierten Daten der Kategorie
      * @return Die aktualisierte Kategorie oder null, wenn die Kategorie nicht gefunden wurde
      * @throws CategoryNotFoundException wenn die Kategorie nicht gefunden wurde
@@ -110,24 +113,25 @@ public class CategoryService {
                 new CategoryNotFoundException("Kategorie mit ID " + id + " nicht gefunden."));
         return category.getProducts();
     }
-}
 
-/**
- * Benutzerdefinierte Ausnahme, die geworfen wird, wenn eine Kategorie nicht gefunden wird.
- */
-@ResponseStatus(HttpStatus.NOT_FOUND)
-class CategoryNotFoundException extends RuntimeException {
-    public CategoryNotFoundException(String message) {
-        super(message);
+
+    /**
+     * Benutzerdefinierte Ausnahme, die geworfen wird, wenn eine Kategorie nicht gefunden wird.
+     */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    class CategoryNotFoundException extends RuntimeException {
+        public CategoryNotFoundException(String message) {
+            super(message);
+        }
     }
-}
 
-/**
- * Benutzerdefinierte Ausnahme, die geworfen wird, wenn eine Kategorie bereits existiert.
- */
-@ResponseStatus(HttpStatus.CONFLICT)
-class CategoryAlreadyExistsException extends RuntimeException {
-    public CategoryAlreadyExistsException(String message) {
-        super(message);
+    /**
+     * Benutzerdefinierte Ausnahme, die geworfen wird, wenn eine Kategorie bereits existiert.
+     */
+    @ResponseStatus(HttpStatus.CONFLICT)
+    class CategoryAlreadyExistsException extends RuntimeException {
+        public CategoryAlreadyExistsException(String message) {
+            super(message);
+        }
     }
 }

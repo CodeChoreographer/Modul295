@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Repository für Produktoperationen.
+ * Bietet CRUD-Operationen für ProductData.
  */
 @Repository
 public interface ProductRepository extends JpaRepository<ProductData, Integer> {
