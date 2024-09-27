@@ -1,5 +1,6 @@
 package com.modul295_lb1.productmanager.resources.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,10 +20,11 @@ public class UserDTO {
     @NotBlank(message = "Benutzername darf nicht leer sein.")
     private String username;
 
-    @NotNull(message = "Aktivitätsstatus darf nicht null sein.")
-    private Boolean active;
-
     @NotBlank(message = "E-Mail darf nicht leer sein.")
     @Email(message = "E-Mail muss im richtigen Format sein.")
     private String email;
+
+    @NotNull(message = "Aktivitätsstatus darf nicht null sein.")
+    private String active;
+
 }

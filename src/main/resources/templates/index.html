@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Example</title>
+</head>
+<body>
+<h1>Welcome to Thymeleaf</h1>
+<p>This is a simple Thymeleaf template for a Spring Boot application.</p>
+<p><a href="/api/message">Go to REST Endpoint</a></p>
+<p th:for="${title}"></p>
+<div th:each="product: ${products}">
+    <span th:text="${product.name}"></span>
+    <span th:text="${product.price}"></span>
+
+</div>
+</body>
+</html>

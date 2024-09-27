@@ -40,6 +40,7 @@ public class SecurityConfig {
                         // Erlaubt allen Benutzern die Registrierung und den Login
                         .requestMatchers("/users/register").permitAll()
                         .requestMatchers("/users/login").permitAll()
+                        .requestMatchers("/frontend/**").permitAll()
                         .requestMatchers("/error").permitAll()
 
                         // Erfordert Authentifizierung für Benutzerdaten

@@ -185,12 +185,16 @@ public class UserService {
     }
 
     public UserDTO convertToDTO(UserData userData) {
+        String activeStatus = userData.getActive() != null && userData.getActive()
+                ? "User ist aktiv"
+                : "User ist deaktiviert";
         return new UserDTO(
                 userData.getUsername(),
-                userData.getActive(),
-                userData.getEmail()
+                userData.getEmail(),
+                activeStatus
         );
     }
+
 
     public static class UserAlreadyExistsException extends RuntimeException {
         public UserAlreadyExistsException(String message) {
