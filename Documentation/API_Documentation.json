@@ -321,24 +321,16 @@
         "summary": "Benutzer authentifizieren",
         "description": "Authentifiziert einen Benutzer und gibt ein Token zurück.",
         "operationId": "authenticateUser",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
             }
           },
-          {
-            "name": "password",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -422,26 +414,14 @@
         "tags": [
           "user-controller"
         ],
-        "summary": "Benutzerdaten abrufen",
-        "description": "Ruft die Benutzerdaten des authentifizierten Benutzers ab.",
-        "operationId": "getUserData",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "operationId": "getCurrentUser",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserData"
+                  "$ref": "#/components/schemas/UserDTO"
                 }
               }
             }
@@ -669,10 +649,51 @@
           }
         }
       },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Der Benutzername des Anmeldenden Benutzers",
+            "example": "Admin"
+          },
+          "email": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "password": {
+            "type": "string",
+            "description": "Das Passwort des Anmeldenden Benutzers",
+            "example": "Admin"
+          },
+          "usernameOrEmail": {
+            "type": "string"
+          }
+        }
+      },
       "TokenWrapper": {
         "type": "object",
         "properties": {
           "token": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDTO": {
+        "required": [
+          "active",
+          "email",
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "active": {
             "type": "string"
           }
         }
