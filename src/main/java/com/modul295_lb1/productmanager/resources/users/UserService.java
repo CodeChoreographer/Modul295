@@ -165,9 +165,9 @@ public class UserService {
         return userRepository.findByEmail(email) != null;
     }
 
-    public UserData getUserByCredentials(@Parameter(description = "Benutzername") String email,
+    public UserData getUserByCredentials(@Parameter(description = "Benutzername oder Email") String emailOrUsername,
                                          @Parameter(description = "Passwort") String password) {
-        UserData userData = userRepository.findByEmail(email);
+        UserData userData = userRepository.findByEmailOrUsername(emailOrUsername);
         if(userData == null) {
             return null;
         }

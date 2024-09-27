@@ -54,15 +54,20 @@ public class UserController {
             summary = "Benutzer authentifizieren",
             description = "Authentifiziert einen Benutzer und gibt ein Token zurück."
     )
-    public TokenWrapper authenticateUser(@RequestParam String email, @RequestParam String password) {
-        UserData userData = userService.getUserByCredentials(email, password);
+    public ResponseEntity<TokenWrapper> authenticateUser(@RequestBody LoginRequest loginRequest) {
+        // Benutzerdaten mit den angegebenen Anmeldeinformationen abrufen
+        UserData userData = userService.getUserByCredentials(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
         if (userData != null) {
+            // Token generieren und im Wrapper zurückgeben
             TokenWrapper tokenWrapper = new TokenWrapper();
             String token = tokenService.generateToken(userData);
             tokenWrapper.setToken(token);
-            return tokenWrapper;
+
+            // Antwort mit Token und HTTP-Status 200 (OK)
+            return ResponseEntity.ok(tokenWrapper);
         } else {
-            return null; // Benutzer nicht gefunden
+            // Bei ungültigen Anmeldeinformationen 401 (Unauthorized) zurückgeben
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 

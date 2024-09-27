@@ -10,11 +10,18 @@ public class LoginRequest {
     @Schema(description = "Der Benutzername des Anmeldenden Benutzers", example = "Admin")
     private String username;
 
+    @Schema(description = "Der Benutzername des Anmeldenden Benutzers", example = "Admin")
+    private String email;
+
     @Schema(description = "Das Passwort des Anmeldenden Benutzers", example = "Admin")
     private String password;
 
     public String getUsername() {
         return username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setUsername(String username) {
@@ -27,5 +34,15 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public String getUsernameOrEmail(){
+        if (username != null && !username.isEmpty()){
+            return username;
+        }else if (email != null && !email.isEmpty()){
+            return email;
+        }
+        return null;
     }
 }
