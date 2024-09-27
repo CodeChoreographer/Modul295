@@ -1,8 +1,7 @@
 package com.modul295_lb1.productmanager.resources.users;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +10,9 @@ import java.util.List;
  * Entitätsklasse, die einen Benutzer im System darstellt.
  * Mapped to the 'users' table in the database.
  */
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserData {

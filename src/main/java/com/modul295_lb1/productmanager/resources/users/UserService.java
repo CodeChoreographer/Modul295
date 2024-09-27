@@ -184,6 +184,14 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public UserDTO convertToDTO(UserData userData) {
+        return new UserDTO(
+                userData.getUsername(),
+                userData.getActive(),
+                userData.getEmail()
+        );
+    }
+
     public static class UserAlreadyExistsException extends RuntimeException {
         public UserAlreadyExistsException(String message) {
             super(message);

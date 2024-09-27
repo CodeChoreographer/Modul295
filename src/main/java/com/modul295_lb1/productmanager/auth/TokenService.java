@@ -30,7 +30,8 @@ public class TokenService {
             description = "Erstellt ein JWT-Token, das die E-Mail des Benutzers und seine Rollen enthält.")
     public String generateToken(UserData userData) {
         return Jwts.builder()
-                .setSubject(userData.getEmail())  // Setzt die Benutzer-E-Mail als Subjekt des Tokens
+                .setSubject(userData.getEmail()) // Setzt die Benutzer-E-Mail als Subjekt des Tokens
+                .claim("username", userData.getUsername()) // Fügt Username des Benutzers hinzu
                 .claim("roles", userData.getRoles())  // Fügt die Rollen des Benutzers hinzu
                 .setIssuedAt(new Date(System.currentTimeMillis()))  // Setzt das Ausstellungsdatum
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // Setzt das Ablaufdatum auf 10 Stunden

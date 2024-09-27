@@ -34,11 +34,13 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http
-                .httpBasic().disable()  // HTTP Basic Authentication deaktivieren
+                .httpBasic().disable()
+                .cors().disable()// HTTP Basic Authentication deaktivieren
                 .authorizeHttpRequests(authz -> authz
                         // Erlaubt allen Benutzern die Registrierung und den Login
                         .requestMatchers("/users/register").permitAll()
                         .requestMatchers("/users/login").permitAll()
+                        .requestMatchers("/error").permitAll()
 
                         // Erfordert Authentifizierung für Benutzerdaten
                         .requestMatchers("/users/me").authenticated()

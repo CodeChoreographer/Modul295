@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<UserData, Integer> {
     UserData findByEmail(String email);
-
     UserData findByUsername(String username);
 
     @Query("SELECT u FROM UserData u WHERE u.email = :usernameOrEmail OR u.username = :usernameOrEmail")
