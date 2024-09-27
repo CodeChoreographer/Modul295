@@ -78,7 +78,7 @@ http://localhost:8080
 If you encounter issues while starting the application:
 
 - Ensure that all dependencies are correctly installed.
-- Check the settings in `application.properties`.
+- Check the settings in `application.yml`.
 - Verify the MySQL database connection and permissions.
 
 ## Support
